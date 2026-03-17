@@ -57,7 +57,7 @@ public class TimezoneCalculator extends JFrame {
         digitalTime1Label.setHorizontalAlignment(JLabel.CENTER);
         digitalTime1Label.setFont(new Font("Monospaced", Font.BOLD, 24));
         digitalTime1Label.setOpaque(true);
-        digitalTime1Label.setBackground(new Color(240, 240, 240));
+        digitalTime1Label.setBackground(new Color(200, 200, 255));
         digitalTime1Label.setBorder(BorderFactory.createEmptyBorder(10, 5, 10, 5));
         
         clock1Panel.add(timezone1Panel, BorderLayout.NORTH);
@@ -84,7 +84,7 @@ public class TimezoneCalculator extends JFrame {
         digitalTime2Label.setHorizontalAlignment(JLabel.CENTER);
         digitalTime2Label.setFont(new Font("Monospaced", Font.BOLD, 24));
         digitalTime2Label.setOpaque(true);
-        digitalTime2Label.setBackground(new Color(240, 240, 240));
+        digitalTime2Label.setBackground(new Color(255, 220, 180));
         digitalTime2Label.setBorder(BorderFactory.createEmptyBorder(10, 5, 10, 5));
         
         clock2Panel.add(timezone2Panel, BorderLayout.NORTH);
