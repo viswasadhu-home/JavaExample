@@ -14,7 +14,7 @@ public class TimezoneCalculator extends JFrame {
     public TimezoneCalculator() {
         setTitle("Timezone Calculator for World Clock");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1000, 600);
+        setSize(1000, 650);
         setLocationRelativeTo(null);
         setResizable(false);
 
@@ -25,6 +25,10 @@ public class TimezoneCalculator extends JFrame {
         // Top panel for time input
         JPanel inputPanel = createInputPanel();
         mainPanel.add(inputPanel, BorderLayout.NORTH);
+
+        // Color control panel
+        JPanel colorPanel = createColorPanel();
+        mainPanel.add(colorPanel, BorderLayout.BEFORE_FIRST_LINE);
 
         // Middle panel for two clocks
         JPanel clocksPanel = new JPanel();
@@ -87,6 +91,58 @@ public class TimezoneCalculator extends JFrame {
         JButton resetBtn = new JButton("Reset to Current Time");
         resetBtn.addActionListener(e -> resetToCurrent());
         panel.add(resetBtn);
+
+        return panel;
+    }
+
+    private JPanel createColorPanel() {
+        JPanel panel = new JPanel();
+        panel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 5));
+        panel.setBorder(BorderFactory.createTitledBorder("Clock Background Colors"));
+
+        panel.add(new JLabel("Clock 1:"));
+        JButton cycle1Btn = new JButton("Cycle Color");
+        cycle1Btn.addActionListener(e -> clock1.cycleBackgroundColor());
+        panel.add(cycle1Btn);
+
+        JButton color1RedBtn = new JButton("Red");
+        color1RedBtn.addActionListener(e -> clock1.setClockBackgroundColor(new Color(255, 200, 200)));
+        panel.add(color1RedBtn);
+
+        JButton color1GreenBtn = new JButton("Green");
+        color1GreenBtn.addActionListener(e -> clock1.setClockBackgroundColor(new Color(200, 255, 200)));
+        panel.add(color1GreenBtn);
+
+        JButton color1BlueBtn = new JButton("Blue");
+        color1BlueBtn.addActionListener(e -> clock1.setClockBackgroundColor(new Color(200, 200, 255)));
+        panel.add(color1BlueBtn);
+
+        JButton color1YellowBtn = new JButton("Yellow");
+        color1YellowBtn.addActionListener(e -> clock1.setClockBackgroundColor(new Color(255, 255, 150)));
+        panel.add(color1YellowBtn);
+
+        panel.add(new JSeparator(JSeparator.VERTICAL));
+
+        panel.add(new JLabel("Clock 2:"));
+        JButton cycle2Btn = new JButton("Cycle Color");
+        cycle2Btn.addActionListener(e -> clock2.cycleBackgroundColor());
+        panel.add(cycle2Btn);
+
+        JButton color2RedBtn = new JButton("Red");
+        color2RedBtn.addActionListener(e -> clock2.setClockBackgroundColor(new Color(255, 200, 200)));
+        panel.add(color2RedBtn);
+
+        JButton color2GreenBtn = new JButton("Green");
+        color2GreenBtn.addActionListener(e -> clock2.setClockBackgroundColor(new Color(200, 255, 200)));
+        panel.add(color2GreenBtn);
+
+        JButton color2BlueBtn = new JButton("Blue");
+        color2BlueBtn.addActionListener(e -> clock2.setClockBackgroundColor(new Color(200, 200, 255)));
+        panel.add(color2BlueBtn);
+
+        JButton color2YellowBtn = new JButton("Yellow");
+        color2YellowBtn.addActionListener(e -> clock2.setClockBackgroundColor(new Color(255, 255, 150)));
+        panel.add(color2YellowBtn);
 
         return panel;
     }

@@ -1,22 +1,36 @@
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.geom.AffineTransform;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.temporal.ChronoField;
+import javax.swing.*;
 
 public class ClockPanel extends JPanel {
     private ZoneId timeZone;
     private LocalDateTime customTime;
     private boolean useCustomTime;
     private Timer timer;
+    private Color clockBackgroundColor;
+    private int colorIndex;
+    private Color[] colorPalette;
 
     public ClockPanel(ZoneId timeZone) {
         this.timeZone = timeZone;
         this.useCustomTime = false;
         this.customTime = null;
+
+        // Define color palette
+        colorPalette = new Color[]{
+            Color.WHITE,
+            new Color(255, 200, 200),      // Light Red
+            new Color(200, 255, 200),      // Light Green
+            new Color(200, 200, 255),      // Light Blue
+            new Color(255, 255, 150),      // Light Yellow
+            new Color(255, 200, 255),      // Light Magenta
+            new Color(150, 255, 255),      // Light Cyan
+            new Color(255, 220, 180)       // Light Orange
+        };
+        
+        colorIndex = 0;
+        clockBackgroundColor = colorPalette[colorIndex];
 
         setPreferredSize(new Dimension(300, 300));
         setBackground(Color.WHITE);
@@ -57,7 +71,7 @@ public class ClockPanel extends JPanel {
 
     private void drawClockFace(Graphics2D g2d, int centerX, int centerY, int radius) {
         // Draw clock circle
-        g2d.setColor(Color.WHITE);
+        g2d.setColor(clockBackgroundColor);
         g2d.fillOval(centerX - radius, centerY - radius, radius * 2, radius * 2);
         g2d.setColor(Color.BLACK);
         g2d.setStroke(new BasicStroke(2));
@@ -151,6 +165,31 @@ public class ClockPanel extends JPanel {
         this.useCustomTime = false;
         this.customTime = null;
         repaint();
+    }
+
+    // Color management methods
+    public void setClockBackgroundColor(Color color) {
+        this.clockBackgroundColor = color;
+        repaint();
+    }
+
+    public void cycleBackgroundColor() {
+        colorIndex = (colorIndex + 1) % colorPalette.length;
+        clockBackgroundColor = colorPalette[colorIndex];
+        repaint();
+    }
+
+    public Color getClockBackgroundColor() {
+        return clockBackgroundColor;
+    }
+
+    public void setColorPalette(Color[] colors) {
+        if (colors != null && colors.length > 0) {
+            colorPalette = colors;
+            colorIndex = 0;
+            clockBackgroundColor = colorPalette[colorIndex];
+            repaint();
+        }
     }
 
     @Override
