@@ -17,7 +17,7 @@ public class TimezoneCalculator extends JFrame {
     public TimezoneCalculator() {
         setTitle("Timezone Calculator for World Clock");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1000, 750);
+        setSize(1000, 850);
         setLocationRelativeTo(null);
         setResizable(false);
 
