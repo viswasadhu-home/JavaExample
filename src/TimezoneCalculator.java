@@ -12,7 +12,7 @@ public class TimezoneCalculator extends JFrame {
     private JLabel statusLabel;
 
     public TimezoneCalculator() {
-        setTitle("Timezone Calculator");
+        setTitle("Timezone Calculator for World Clock");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1000, 600);
         setLocationRelativeTo(null);
