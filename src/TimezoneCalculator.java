@@ -10,11 +10,14 @@ public class TimezoneCalculator extends JFrame {
     private JComboBox<String> timezone2Combo;
     private JTextField timeInput;
     private JLabel statusLabel;
+    private JLabel digitalTime1Label;
+    private JLabel digitalTime2Label;
+    private Timer updateTimer;
 
     public TimezoneCalculator() {
         setTitle("Timezone Calculator for World Clock");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1000, 650);
+        setSize(1000, 750);
         setLocationRelativeTo(null);
         setResizable(false);
 
@@ -43,10 +46,23 @@ public class TimezoneCalculator extends JFrame {
         timezone1Combo.setSelectedItem("America/New_York");
         timezone1Combo.addActionListener(e -> onTimezone1Changed());
 
+        JPanel timezone1Panel = new JPanel();
+        timezone1Panel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        timezone1Panel.add(new JLabel("Select Timezone:"));
+        timezone1Panel.add(timezone1Combo);
+
         clock1 = new ClockPanel(ZoneId.of("America/New_York"));
-        clock1Panel.add(new JLabel("Select Timezone:"), BorderLayout.NORTH);
-        clock1Panel.add(timezone1Combo, BorderLayout.SOUTH);
+        
+        digitalTime1Label = new JLabel();
+        digitalTime1Label.setHorizontalAlignment(JLabel.CENTER);
+        digitalTime1Label.setFont(new Font("Monospaced", Font.BOLD, 24));
+        digitalTime1Label.setOpaque(true);
+        digitalTime1Label.setBackground(new Color(240, 240, 240));
+        digitalTime1Label.setBorder(BorderFactory.createEmptyBorder(10, 5, 10, 5));
+        
+        clock1Panel.add(timezone1Panel, BorderLayout.NORTH);
         clock1Panel.add(clock1, BorderLayout.CENTER);
+        clock1Panel.add(digitalTime1Label, BorderLayout.SOUTH);
 
         // Clock 2
         JPanel clock2Panel = new JPanel();
@@ -57,10 +73,23 @@ public class TimezoneCalculator extends JFrame {
         timezone2Combo.setSelectedItem("Asia/Kolkata");
         timezone2Combo.addActionListener(e -> onTimezone2Changed());
 
+        JPanel timezone2Panel = new JPanel();
+        timezone2Panel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        timezone2Panel.add(new JLabel("Select Timezone:"));
+        timezone2Panel.add(timezone2Combo);
+
         clock2 = new ClockPanel(ZoneId.of("Asia/Kolkata"));
-        clock2Panel.add(new JLabel("Select Timezone:"), BorderLayout.NORTH);
-        clock2Panel.add(timezone2Combo, BorderLayout.SOUTH);
+        
+        digitalTime2Label = new JLabel();
+        digitalTime2Label.setHorizontalAlignment(JLabel.CENTER);
+        digitalTime2Label.setFont(new Font("Monospaced", Font.BOLD, 24));
+        digitalTime2Label.setOpaque(true);
+        digitalTime2Label.setBackground(new Color(240, 240, 240));
+        digitalTime2Label.setBorder(BorderFactory.createEmptyBorder(10, 5, 10, 5));
+        
+        clock2Panel.add(timezone2Panel, BorderLayout.NORTH);
         clock2Panel.add(clock2, BorderLayout.CENTER);
+        clock2Panel.add(digitalTime2Label, BorderLayout.SOUTH);
 
         clocksPanel.add(clock1Panel);
         clocksPanel.add(clock2Panel);
@@ -70,6 +99,10 @@ public class TimezoneCalculator extends JFrame {
         // Status label
         statusLabel = new JLabel("Current time in selected timezones");
         mainPanel.add(statusLabel, BorderLayout.SOUTH);
+
+        // Timer to update digital displays
+        updateTimer = new Timer(1000, e -> updateDigitalDisplays());
+        updateTimer.start();
 
         add(mainPanel);
         setVisible(true);
@@ -178,6 +211,7 @@ public class TimezoneCalculator extends JFrame {
             statusLabel.setText("Showing time: " + input + " in " + zone1 + 
                                " = " + zdtInZone2.format(DateTimeFormatter.ofPattern("HH:mm:ss")) + 
                                " in " + zone2);
+            updateDigitalDisplays();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Invalid time format. Please use HH:mm:ss");
         }
@@ -188,22 +222,34 @@ public class TimezoneCalculator extends JFrame {
         clock1.resetToCurrentTime();
         clock2.resetToCurrentTime();
         statusLabel.setText("Reset to current time");
+        updateDigitalDisplays();
     }
 
     private void onTimezone1Changed() {
         String selectedZone = (String) timezone1Combo.getSelectedItem();
         clock1.setTimeZone(ZoneId.of(selectedZone));
+        updateDigitalDisplays();
     }
 
     private void onTimezone2Changed() {
         String selectedZone = (String) timezone2Combo.getSelectedItem();
         clock2.setTimeZone(ZoneId.of(selectedZone));
+        updateDigitalDisplays();
     }
 
     private String[] getAvailableTimezones() {
         return ZoneId.getAvailableZoneIds().stream()
             .sorted()
             .toArray(String[]::new);
+    }
+
+    private void updateDigitalDisplays() {
+        LocalDateTime time1 = clock1.getDisplayTime();
+        LocalDateTime time2 = clock2.getDisplayTime();
+        
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        digitalTime1Label.setText(time1.format(formatter));
+        digitalTime2Label.setText(time2.format(formatter));
     }
 
     public static void main(String[] args) {

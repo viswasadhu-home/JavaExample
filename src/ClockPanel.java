@@ -192,6 +192,14 @@ public class ClockPanel extends JPanel {
         }
     }
 
+    public LocalDateTime getDisplayTime() {
+        if (useCustomTime && customTime != null) {
+            return customTime;
+        } else {
+            return LocalDateTime.now(timeZone);
+        }
+    }
+
     @Override
     public void removeNotify() {
         timer.stop();
